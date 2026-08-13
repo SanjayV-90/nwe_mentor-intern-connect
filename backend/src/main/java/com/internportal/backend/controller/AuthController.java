@@ -1,11 +1,14 @@
 package com.internportal.backend.controller;
 
 import com.internportal.backend.dto.request.LoginRequest;
+import com.internportal.backend.dto.request.OtpSendRequest;
+import com.internportal.backend.dto.request.OtpVerifyRequest;
 import com.internportal.backend.dto.request.RefreshTokenRequest;
 import com.internportal.backend.dto.request.RegisterRequest;
 import com.internportal.backend.dto.response.ApiResponse;
 import com.internportal.backend.dto.response.AuthResponse;
 import com.internportal.backend.service.AuthService;
+import com.internportal.backend.service.OtpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,6 +24,21 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final OtpService otpService;
+
+    @PostMapping("/otp/send")
+    @Operation(summary = "Send OTP to email")
+    public ResponseEntity<ApiResponse<Void>> sendOtp(@Valid @RequestBody OtpSendRequest request) {
+        otpService.generateAndSendOtp(request.getEmail(), request.getPurpose());
+        return ResponseEntity.ok(ApiResponse.success("OTP sent to email", null));
+    }
+
+    @PostMapping("/otp/verify")
+    @Operation(summary = "Verify OTP")
+    public ResponseEntity<ApiResponse<Void>> verifyOtp(@Valid @RequestBody OtpVerifyRequest request) {
+        otpService.verifyOtp(request.getEmail(), request.getOtp(), request.getPurpose());
+        return ResponseEntity.ok(ApiResponse.success("OTP verified successfully", null));
+    }
 
     @PostMapping("/register")
     @Operation(summary = "Register new intern account (Status defaults to PENDING_APPROVAL)")

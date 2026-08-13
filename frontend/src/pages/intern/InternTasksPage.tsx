@@ -58,24 +58,24 @@ export const InternTasksPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-default pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-            <CheckSquare className="h-6 w-6 text-blue-500" /> My Daily Sprint Tasks Board
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+            <CheckSquare className="h-6 w-6 text-brand-primary" /> My Daily Sprint Tasks Board
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-text-muted mt-1">
             Create tasks, update progress bars, and log actual hours spent on sprint deliverables.
           </p>
         </div>
         <Button onClick={() => setIsNewModalOpen(true)} className="font-bold shadow-lg">
-          <Plus className="mr-2 h-4 w-4" /> Create Daily Task
+          <Plus className="mr-2 h-4 w-4" /> Create Task
         </Button>
       </div>
 
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400">
+            <thead className="border-b border-border-default bg-bg-surface/80 text-xs uppercase text-text-muted">
               <tr>
                 <th className="px-6 py-4">Task Name & Category</th>
                 <th className="px-6 py-4">Priority</th>
@@ -85,23 +85,23 @@ export const InternTasksPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-[#303630]/60">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">Loading your tasks...</td>
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">Loading your tasks...</td>
                 </tr>
               ) : tasks.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                    No tasks created yet. Click "Create Daily Task" above!
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">
+                    No tasks created yet. Click "Create Task" above!
                   </td>
                 </tr>
               ) : (
                 tasks.map((t: any) => (
-                  <tr key={t.id} className="hover:bg-slate-900/40 transition-colors">
+                  <tr key={t.id} className="hover:bg-bg-surface/40 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-white">{t.taskName}</div>
-                      <div className="text-xs text-blue-400 mt-0.5">{t.category}</div>
+                      <div className="font-bold text-text-primary">{t.taskName}</div>
+                      <div className="text-xs text-brand-primary mt-0.5">{t.category}</div>
                     </td>
                     <td className="px-6 py-4">
                       <Badge variant={t.priority === 'HIGH' ? 'destructive' : t.priority === 'MEDIUM' ? 'warning' : 'default'}>
@@ -109,18 +109,18 @@ export const InternTasksPage: React.FC = () => {
                       </Badge>
                     </td>
                     <td className="px-6 py-4 w-48">
-                      <div className="flex justify-between text-xs mb-1 font-mono text-slate-300">
+                      <div className="flex justify-between text-xs mb-1 font-mono text-text-secondary">
                         <span>{t.progress}%</span>
                       </div>
-                      <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+                      <div className="h-2 w-full rounded-full bg-[#303630] overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500"
+                          className="h-full bg-brand-primary transition-all duration-500"
                           style={{ width: `${t.progress}%` }}
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs text-slate-300">
-                      {t.estimatedHours || 0}h / <span className="text-emerald-400">{t.actualHours || 0}h</span>
+                    <td className="px-6 py-4 font-mono text-xs text-text-secondary">
+                      {t.estimatedHours || 0}h / <span className="text-success">{t.actualHours || 0}h</span>
                     </td>
                     <td className="px-6 py-4">
                       <Badge variant={t.status === 'COMPLETED' ? 'success' : t.status === 'IN_PROGRESS' ? 'default' : 'warning'}>
@@ -150,7 +150,7 @@ export const InternTasksPage: React.FC = () => {
       </Card>
 
       {/* New Task Modal */}
-      <Modal isOpen={isNewModalOpen} onClose={() => setIsNewModalOpen(false)} title="Create New Daily Task">
+      <Modal isOpen={isNewModalOpen} onClose={() => setIsNewModalOpen(false)} title="Create New Task">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -159,7 +159,7 @@ export const InternTasksPage: React.FC = () => {
           className="space-y-4 text-sm"
         >
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Task Deliverable Name</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Task Deliverable Name</label>
             <Input
               required
               placeholder="e.g. Implement JWT filter chain"
@@ -169,7 +169,7 @@ export const InternTasksPage: React.FC = () => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Category</label>
               <Input
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -177,11 +177,11 @@ export const InternTasksPage: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Priority</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Priority</label>
               <select
                 value={form.priority}
                 onChange={(e) => setForm({ ...form, priority: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 text-xs text-white"
+                className="flex h-10 w-full rounded-md border border-border-default bg-bg-surface px-3 text-xs text-text-primary"
               >
                 <option value="HIGH">High Priority</option>
                 <option value="MEDIUM">Medium Priority</option>
@@ -190,14 +190,14 @@ export const InternTasksPage: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Estimated Hours</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Estimated Hours</label>
             <Input
               type="number"
               value={form.estimatedHours}
               onChange={(e) => setForm({ ...form, estimatedHours: parseFloat(e.target.value) || 0 })}
             />
           </div>
-          <div className="pt-4 border-t border-slate-800 flex justify-end space-x-2">
+          <div className="pt-4 border-t border-border-default flex justify-end space-x-2">
             <Button type="button" variant="ghost" onClick={() => setIsNewModalOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={createMutation.isPending} className="font-bold">Save Task</Button>
           </div>
@@ -215,12 +215,12 @@ export const InternTasksPage: React.FC = () => {
             className="space-y-4 text-sm"
           >
             <div>
-              <span className="text-xs text-slate-500 font-semibold block">Task Name</span>
-              <span className="font-bold text-white text-base">{selectedTask.taskName}</span>
+              <span className="text-xs text-text-muted font-semibold block">Task Name</span>
+              <span className="font-bold text-text-primary text-base">{selectedTask.taskName}</span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-text-secondary mb-1.5">
                 Progress Percentage ({progressVal}%)
               </label>
               <input
@@ -236,17 +236,17 @@ export const InternTasksPage: React.FC = () => {
                   else if (val > 0) setStatusVal('IN_PROGRESS');
                   else setStatusVal('PENDING');
                 }}
-                className="w-full accent-blue-500 cursor-pointer"
+                className="w-full accent-[#CFFF3D] cursor-pointer"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Task Status</label>
+                <label className="block text-xs font-semibold text-text-secondary mb-1">Task Status</label>
                 <select
                   value={statusVal}
                   onChange={(e) => setStatusVal(e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 text-xs text-white"
+                  className="flex h-10 w-full rounded-md border border-border-default bg-bg-surface px-3 text-xs text-text-primary"
                 >
                   <option value="PENDING">Pending</option>
                   <option value="IN_PROGRESS">In Progress</option>
@@ -254,7 +254,7 @@ export const InternTasksPage: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Actual Hours Spent</label>
+                <label className="block text-xs font-semibold text-text-secondary mb-1">Actual Hours Spent</label>
                 <Input
                   type="number"
                   step="0.5"
@@ -264,7 +264,7 @@ export const InternTasksPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex justify-end space-x-2">
+            <div className="pt-4 border-t border-border-default flex justify-end space-x-2">
               <Button type="button" variant="ghost" onClick={() => setSelectedTask(null)}>Cancel</Button>
               <Button type="submit" disabled={updateProgressMutation.isPending} className="font-bold">
                 Save Progress

@@ -29,11 +29,11 @@ export const AdminTasksPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-          <CheckSquare className="h-6 w-6 text-blue-500" /> Batch Daily Tasks Board
+      <div className="border-b border-border-default pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+          <CheckSquare className="h-6 w-6 text-blue-500" /> Batch Tasks Board
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Track sprint progress, task priorities, and completion velocity across all interns.
         </p>
       </div>
@@ -41,7 +41,7 @@ export const AdminTasksPage: React.FC = () => {
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400 font-semibold">
+            <thead className="border-b border-border-default bg-bg-navbar/80 text-xs uppercase text-text-muted font-semibold">
               <tr>
                 <th className="px-6 py-4">Intern</th>
                 <th className="px-6 py-4">Task Name & Category</th>
@@ -51,31 +51,31 @@ export const AdminTasksPage: React.FC = () => {
                 <th className="px-6 py-4">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-border-subtle">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">
                     Loading sprint tasks...
                   </td>
                 </tr>
               ) : tasks.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                    No daily tasks assigned or created yet.
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">
+                    No tasks assigned or created yet.
                   </td>
                 </tr>
               ) : (
                 tasks.map((t: any) => (
-                  <tr key={t.id} className="hover:bg-slate-900/40 transition-colors">
-                    <td className="px-6 py-4 font-bold text-white">{t.internName}</td>
+                  <tr key={t.id} className="hover:bg-bg-surface-elevated transition-colors">
+                    <td className="px-6 py-4 font-bold text-text-primary">{t.internName}</td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-slate-200">{t.taskName}</div>
+                      <div className="font-semibold text-text-primary">{t.taskName}</div>
                       <div className="text-xs text-blue-400 mt-0.5">{t.category}</div>
                     </td>
                     <td className="px-6 py-4">{getPriorityBadge(t.priority)}</td>
                     <td className="px-6 py-4 w-48">
                       <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="font-mono text-slate-300">{t.progress}%</span>
+                        <span className="font-mono text-text-secondary">{t.progress}%</span>
                       </div>
                       <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
                         <div
@@ -90,7 +90,7 @@ export const AdminTasksPage: React.FC = () => {
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs text-slate-300">
+                    <td className="px-6 py-4 font-mono text-xs text-text-secondary">
                       {t.estimatedHours || 0}h / <span className="text-emerald-400">{t.actualHours || 0}h</span>
                     </td>
                     <td className="px-6 py-4">

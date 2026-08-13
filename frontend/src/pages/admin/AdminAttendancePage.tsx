@@ -30,11 +30,11 @@ export const AdminAttendancePage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
+      <div className="border-b border-border-default pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
           <CalendarCheck className="h-6 w-6 text-emerald-500" /> Batch Attendance Roster
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Monitor real-time intern check-in and check-out logs across the entire batch.
         </p>
       </div>
@@ -42,7 +42,7 @@ export const AdminAttendancePage: React.FC = () => {
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400 font-semibold">
+            <thead className="border-b border-border-default bg-bg-navbar/80 text-xs uppercase text-text-muted font-semibold">
               <tr>
                 <th className="px-6 py-4">Intern Name & Email</th>
                 <th className="px-6 py-4">Date</th>
@@ -52,27 +52,27 @@ export const AdminAttendancePage: React.FC = () => {
                 <th className="px-6 py-4">Remarks</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-border-subtle">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">
                     Loading attendance telemetry...
                   </td>
                 </tr>
               ) : attendanceList.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-text-muted">
                     No attendance logs recorded yet.
                   </td>
                 </tr>
               ) : (
                 attendanceList.map((record: any) => (
-                  <tr key={record.id} className="hover:bg-slate-900/40 transition-colors">
+                  <tr key={record.id} className="hover:bg-bg-surface-elevated transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-white">{record.internName}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{record.internEmail}</div>
+                      <div className="font-bold text-text-primary">{record.internName}</div>
+                      <div className="text-xs text-text-muted mt-0.5">{record.internEmail}</div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-slate-300">{record.attendanceDate}</td>
+                    <td className="px-6 py-4 font-mono text-text-secondary">{record.attendanceDate}</td>
                     <td className="px-6 py-4 font-mono text-emerald-400">
                       {record.loginTime ? new Date(record.loginTime).toLocaleTimeString() : '—'}
                     </td>
@@ -80,7 +80,7 @@ export const AdminAttendancePage: React.FC = () => {
                       {record.logoutTime ? new Date(record.logoutTime).toLocaleTimeString() : 'In Progress'}
                     </td>
                     <td className="px-6 py-4">{getStatusBadge(record.status)}</td>
-                    <td className="px-6 py-4 text-xs text-slate-400 italic">
+                    <td className="px-6 py-4 text-xs text-text-muted italic">
                       {record.remarks || 'None'}
                     </td>
                   </tr>

@@ -37,8 +37,8 @@ interface AdminWorkspaceContextType {
   setSelectedIntern: (intern: InternProfile | null) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
-  statusFilter: 'ALL' | 'ACTIVE' | 'PENDING_APPROVAL';
-  setStatusFilter: (status: 'ALL' | 'ACTIVE' | 'PENDING_APPROVAL') => void;
+  statusFilter: 'ALL' | 'ACTIVE' | 'PENDING_APPROVAL' | 'DISABLED';
+  setStatusFilter: (status: 'ALL' | 'ACTIVE' | 'PENDING_APPROVAL' | 'DISABLED') => void;
   filteredInterns: InternProfile[];
 }
 
@@ -48,7 +48,7 @@ export const AdminWorkspaceProvider: React.FC<{ children: React.ReactNode }> = (
   const { user } = useAuth();
   const [selectedIntern, setSelectedIntern] = useState<InternProfile | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'PENDING_APPROVAL'>('ALL');
+  const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'PENDING_APPROVAL' | 'DISABLED'>('ALL');
 
   // Include user.userId in the query key so each user session has its own cache entry.
   // Do NOT catch errors here — let TanStack Query track isError correctly so the UI
@@ -87,20 +87,15 @@ export const AdminWorkspaceProvider: React.FC<{ children: React.ReactNode }> = (
       return;
     }
 
-    if (!selectedIntern) {
-      // Nothing selected yet — pick first ACTIVE intern.
-      const firstActive = internsList.find((i) => i && i.status === 'ACTIVE') || internsList[0];
-      if (firstActive) setSelectedIntern(firstActive);
-    } else {
+    if (selectedIntern) {
       // Already have a selection — verify it's still in the current list.
       const updated = internsList.find((i) => i && i.userId === selectedIntern.userId);
       if (updated) {
         // Refresh the intern data in case profile was updated.
         setSelectedIntern(updated);
       } else {
-        // Stale intern (no longer in list) — select the first ACTIVE one.
-        const firstActive = internsList.find((i) => i && i.status === 'ACTIVE') || internsList[0];
-        setSelectedIntern(firstActive ?? null);
+        // Stale intern (no longer in list) — clear selection.
+        setSelectedIntern(null);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

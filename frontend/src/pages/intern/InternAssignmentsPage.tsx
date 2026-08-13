@@ -117,12 +117,12 @@ export const InternAssignmentsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-default pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-            <Code2 className="h-6 w-6 text-purple-500" /> Coding Assignment Submissions
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+            <Code2 className="h-6 w-6 text-brand-primary" /> Coding Assignment Submissions
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-text-muted mt-1">
             Log your daily algorithm solutions and upload screenshot proof of acceptance.
           </p>
         </div>
@@ -132,8 +132,8 @@ export const InternAssignmentsPage: React.FC = () => {
       </div>
 
       {successMsg && (
-        <div className="flex items-center space-x-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-emerald-300">
-          <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />
+        <div className="flex items-center space-x-2 rounded-xl border border-[#43D39E]/40 bg-success/10 p-4 text-sm text-success">
+          <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
           <span>{successMsg}</span>
         </div>
       )}
@@ -142,7 +142,7 @@ export const InternAssignmentsPage: React.FC = () => {
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400">
+            <thead className="border-b border-border-default bg-bg-surface/80 text-xs uppercase text-text-muted">
               <tr>
                 <th className="px-6 py-4">Problem Title & Link</th>
                 <th className="px-6 py-4">Platform</th>
@@ -153,54 +153,54 @@ export const InternAssignmentsPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-[#303630]/60">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400">Loading your submissions...</td>
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">Loading your submissions...</td>
                 </tr>
               ) : assignments.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">
                     No problem submissions logged yet. Click "Submit Problem Solution" above!
                   </td>
                 </tr>
               ) : (
                 assignments.map((sub: any) => (
-                  <tr key={sub.id} className="hover:bg-slate-900/40 transition-colors">
+                  <tr key={sub.id} className="hover:bg-bg-surface/40 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-white">{sub.title}</div>
+                      <div className="font-bold text-text-primary">{sub.title}</div>
                       <a
                         href={sub.problemUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center text-xs text-blue-400 hover:underline mt-0.5"
+                        className="inline-flex items-center text-xs text-brand-primary hover:underline mt-0.5"
                       >
                         Open Problem <ExternalLink className="ml-1 h-3 w-3" />
                       </a>
                     </td>
-                    <td className="px-6 py-4 font-bold uppercase text-purple-400">{sub.platform}</td>
-                    <td className="px-6 py-4 text-slate-300">{sub.techStack}</td>
+                    <td className="px-6 py-4 font-bold uppercase text-brand-primary">{sub.platform}</td>
+                    <td className="px-6 py-4 text-text-secondary">{sub.techStack}</td>
                     <td className="px-6 py-4">
                       <Badge variant={sub.difficulty === 'EASY' ? 'success' : sub.difficulty === 'MEDIUM' ? 'warning' : 'destructive'}>
                         {sub.difficulty}
                       </Badge>
                     </td>
-                    <td className="px-6 py-4 font-mono text-slate-300 flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-slate-500" /> {sub.timeTakenMinutes} mins
+                    <td className="px-6 py-4 font-mono text-text-secondary flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5 text-text-muted" /> {sub.timeTakenMinutes} mins
                     </td>
-                    <td className="px-6 py-4 text-xs text-slate-400 max-w-xs truncate">{sub.notes || '—'}</td>
+                    <td className="px-6 py-4 text-xs text-text-muted max-w-xs truncate">{sub.notes || '—'}</td>
                     <td className="px-6 py-4 text-right whitespace-nowrap space-x-2">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleEdit(sub)}
                       >
-                        <Edit2 className="h-3.5 w-3.5 text-blue-400" />
+                        <Edit2 className="h-3.5 w-3.5 text-brand-primary" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10"
+                        className="text-danger hover:text-danger/80 hover:bg-danger/10"
                         disabled={deleteMutation.isPending}
                         onClick={() => deleteMutation.mutate(sub.id)}
                       >
@@ -225,14 +225,14 @@ export const InternAssignmentsPage: React.FC = () => {
           className="space-y-4 text-sm"
         >
           {errorMsg && (
-            <div className="flex items-center space-x-2 rounded-lg border border-rose-500/40 bg-rose-500/10 p-3 text-xs text-rose-300">
+            <div className="flex items-center space-x-2 rounded-lg border border-[#FF5C7A]/40 bg-danger/10 p-3 text-xs text-danger">
               <span className="font-bold">Error:</span>
               <span>{errorMsg}</span>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Problem Title</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Problem Title</label>
             <Input
               required
               placeholder="e.g. Two Sum / LRU Cache"
@@ -243,11 +243,11 @@ export const InternAssignmentsPage: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Platform</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Platform</label>
               <select
                 value={form.platform}
                 onChange={(e) => setForm({ ...form, platform: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-white"
+                className="flex h-10 w-full rounded-md border border-border-default bg-bg-surface px-3 py-2 text-xs text-text-primary"
               >
                 <option value="LEETCODE">LeetCode</option>
                 <option value="HACKERRANK">HackerRank</option>
@@ -258,11 +258,11 @@ export const InternAssignmentsPage: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Tech Stack / Language</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Tech Stack / Language</label>
               <select
                 value={form.techStack}
                 onChange={(e) => setForm({ ...form, techStack: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-white"
+                className="flex h-10 w-full rounded-md border border-border-default bg-bg-surface px-3 py-2 text-xs text-text-primary"
               >
                 <option value="JAVA">Java</option>
                 <option value="PYTHON">Python</option>
@@ -278,11 +278,11 @@ export const InternAssignmentsPage: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Difficulty</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Difficulty</label>
               <select
                 value={form.difficulty}
                 onChange={(e) => setForm({ ...form, difficulty: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-white"
+                className="flex h-10 w-full rounded-md border border-border-default bg-bg-surface px-3 py-2 text-xs text-text-primary"
               >
                 <option value="EASY">Easy</option>
                 <option value="MEDIUM">Medium</option>
@@ -290,7 +290,7 @@ export const InternAssignmentsPage: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Time Taken (Minutes)</label>
+              <label className="block text-xs font-semibold text-text-secondary mb-1">Time Taken (Minutes)</label>
               <Input
                 type="number"
                 value={form.timeTakenMinutes}
@@ -300,7 +300,7 @@ export const InternAssignmentsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Problem URL</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Problem URL</label>
             <Input
               required
               type="url"
@@ -311,7 +311,7 @@ export const InternAssignmentsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Solution Notes / Approach</label>
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Solution Notes / Approach</label>
             <Input
               placeholder="Brief summary of algorithm complexity..."
               value={form.notes}
@@ -320,17 +320,17 @@ export const InternAssignmentsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Screenshot Evidence (Optional)</label>
-            <label className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-700 bg-slate-900/50 p-4 cursor-pointer hover:border-blue-500/50 transition-colors">
-              <UploadCloud className="h-6 w-6 text-slate-400 mb-1" />
-              <span className="text-xs text-slate-300">
+            <label className="block text-xs font-semibold text-text-secondary mb-1">Screenshot Evidence (Optional)</label>
+            <label className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border-default bg-bg-surface/50 p-4 cursor-pointer hover:border-brand-primary/50 transition-colors">
+              <UploadCloud className="h-6 w-6 text-text-muted mb-1" />
+              <span className="text-xs text-text-secondary">
                 {file ? file.name : 'Click to attach accepted solution screenshot'}
               </span>
               <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files && setFile(e.target.files[0])} />
             </label>
           </div>
 
-          <div className="pt-4 border-t border-slate-800 flex justify-end space-x-2">
+          <div className="pt-4 border-t border-border-default flex justify-end space-x-2">
             <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
             <Button type="submit" disabled={submitMutation.isPending} className="font-bold">
               {submitMutation.isPending ? 'Submitting...' : editingId ? 'Update Submission' : 'Log Submission'}

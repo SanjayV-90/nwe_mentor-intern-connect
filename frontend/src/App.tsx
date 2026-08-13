@@ -18,6 +18,7 @@ import { AdminTasksPage } from '@/pages/admin/AdminTasksPage';
 import { AdminDuolingoPage } from '@/pages/admin/AdminDuolingoPage';
 
 // Intern pages
+import { InternDashboardPage } from '@/pages/intern/InternDashboardPage';
 import { InternProfilePage } from '@/pages/intern/InternProfilePage';
 import { InternAttendancePage } from '@/pages/intern/InternAttendancePage';
 import { InternAssignmentsPage } from '@/pages/intern/InternAssignmentsPage';
@@ -48,13 +49,14 @@ export function App() {
 
             {/* Intern Portal Workspace */}
             <Route path="/intern" element={<MainLayout requiredRole="INTERN" />}>
+              <Route path="dashboard" element={<InternDashboardPage />} />
               <Route path="profile" element={<InternProfilePage />} />
               <Route path="attendance" element={<InternAttendancePage />} />
               <Route path="leaves" element={<InternLeavesPage />} />
               <Route path="assignments" element={<InternAssignmentsPage />} />
               <Route path="tasks" element={<InternTasksPage />} />
               <Route path="duolingo" element={<InternDuolingoPage />} />
-              <Route index element={<Navigate to="/intern/profile" replace />} />
+              <Route index element={<Navigate to="/intern/dashboard" replace />} />
             </Route>
 
             {/* Fallback */}

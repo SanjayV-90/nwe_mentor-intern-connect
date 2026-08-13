@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Bell, Shield, User as UserIcon, Check, CheckCheck } from 'lucide-react';
+import { LogOut, Bell, Shield, User as UserIcon, Check, CheckCheck, Sun, Moon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/api';
+import { useTheme } from '@/context/ThemeContext';
 
 interface NotificationItem {
   id: string;
@@ -19,6 +20,9 @@ export const Navbar: React.FC = () => {
   const [showNotifs, setShowNotifs] = useState(false);
   const notifRef = React.useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const { theme, setTheme, actualTheme } = useTheme();
+
+  const toggleTheme = () => setTheme(actualTheme === 'dark' ? 'light' : 'dark');
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,16 +73,16 @@ export const Navbar: React.FC = () => {
   const avatarUrl = user?.profilePictureUrl;
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-800/80 bg-slate-950/80 px-6 backdrop-blur-md">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border-default bg-bg-navbar/90 px-6 backdrop-blur-md transition-colors">
       <div className="flex items-center space-x-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 shadow-lg shadow-blue-500/20">
-          <Shield className="h-5 w-5 text-white" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-bg-surface border border-border-default shadow overflow-hidden shrink-0">
+          <img src="/logo.jpg" alt="MentorBridge Logo" className="h-full w-full object-cover" />
         </div>
         <div>
-          <span className="text-lg font-bold tracking-tight text-white">
-            InternManagement<span className="text-blue-500">.AI</span>
+          <span className="text-lg font-bold tracking-tight text-text-primary">
+            Mentor<span className="text-brand-primary">Bridge</span>
           </span>
-          <p className="text-[11px] font-medium tracking-wide text-slate-400">
+          <p className="text-[11px] font-medium tracking-wide text-text-muted">
             ENTERPRISE LEARNING PORTAL
           </p>
         </div>
@@ -91,29 +95,37 @@ export const Navbar: React.FC = () => {
           </Badge>
         )}
 
+        <button
+          onClick={toggleTheme}
+          className="relative rounded-lg p-2 text-text-secondary hover:bg-bg-surface-elevated hover:text-text-primary transition-colors"
+          title="Toggle Theme"
+        >
+          {actualTheme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
+
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setShowNotifs(!showNotifs)}
-            className="relative rounded-lg p-2 text-slate-400 hover:bg-slate-900 hover:text-white transition-colors"
+            className="relative rounded-lg p-2 text-text-secondary hover:bg-bg-surface-elevated hover:text-text-primary transition-colors"
             title="Notifications"
           >
             <Bell className="h-5 w-5" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-blue-500 px-1 text-[10px] font-bold text-white ring-2 ring-slate-950 animate-pulse">
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-primary px-1 text-[10px] font-bold text-bg-page ring-2 ring-bg-page animate-pulse">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {showNotifs && (
-            <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-xl border border-slate-800 bg-slate-900 shadow-2xl z-50 overflow-hidden">
-              <div className="flex items-center justify-between border-b border-slate-800 p-3.5 bg-slate-950/60">
+            <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-xl border border-border-default bg-bg-surface shadow-2xl z-50 overflow-hidden">
+              <div className="flex items-center justify-between border-b border-border-subtle p-3.5 bg-bg-navbar/80">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm text-white">
+                  <span className="font-bold text-sm text-text-primary">
                     {user?.role === 'ADMIN' ? 'Mentor Notifications' : 'Intern Notifications'}
                   </span>
                   {unreadCount > 0 && (
-                    <span className="rounded-full bg-blue-500/20 text-blue-400 px-2 py-0.5 text-[10px] font-bold">
+                    <span className="rounded-full bg-brand-primary-soft text-brand-primary px-2 py-0.5 text-[10px] font-bold">
                       {unreadCount} new
                     </span>
                   )}
@@ -121,24 +133,24 @@ export const Navbar: React.FC = () => {
                 {unreadCount > 0 && (
                   <button
                     onClick={() => markAllReadMutation.mutate()}
-                    className="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                    className="text-xs font-semibold text-brand-primary hover:text-brand-primary-hover flex items-center gap-1"
                   >
                     <CheckCheck className="h-3.5 w-3.5" /> Mark All Read
                   </button>
                 )}
               </div>
 
-              <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
+              <div className="max-h-80 overflow-y-auto divide-y divide-border-subtle">
                 {notifsLoading ? (
-                  <div className="p-6 text-center text-xs text-slate-400">
+                  <div className="p-6 text-center text-xs text-text-muted">
                     Loading notifications...
                   </div>
                 ) : notifsError ? (
-                  <div className="p-6 text-center text-xs text-rose-400">
+                  <div className="p-6 text-center text-xs text-danger">
                     Failed to load notifications. Please try again.
                   </div>
                 ) : notifications.length === 0 ? (
-                  <div className="p-6 text-center text-xs text-slate-400">
+                  <div className="p-6 text-center text-xs text-text-muted">
                     No notifications yet.
                   </div>
                 ) : (
@@ -148,18 +160,18 @@ export const Navbar: React.FC = () => {
                       onClick={() => {
                         if (!n.read) markReadMutation.mutate(n.id);
                       }}
-                      className={`p-3.5 transition-colors flex items-start justify-between gap-3 cursor-pointer ${!n.read ? 'bg-blue-500/10 hover:bg-blue-500/15' : 'hover:bg-slate-800/40'
+                      className={`p-3.5 transition-colors flex items-start justify-between gap-3 cursor-pointer ${!n.read ? 'bg-brand-primary-soft hover:bg-brand-primary-soft/80' : 'hover:bg-bg-surface-elevated'
                         }`}
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-white truncate">{n.title}</span>
+                          <span className="text-xs font-bold text-text-primary truncate">{n.title}</span>
                           {!n.read && (
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-brand-primary shrink-0" />
                           )}
                         </div>
-                        <p className="text-xs text-slate-300 mt-1 line-clamp-2">{n.message}</p>
-                        <span className="text-[10px] text-slate-500 mt-1.5 block font-mono">
+                        <p className="text-xs text-text-secondary mt-1 line-clamp-2">{n.message}</p>
+                        <span className="text-[10px] text-text-muted mt-1.5 block font-mono">
                           {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · {new Date(n.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -170,7 +182,7 @@ export const Navbar: React.FC = () => {
                             markReadMutation.mutate(n.id);
                           }}
                           title="Mark as read"
-                          className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"
+                          className="text-text-muted hover:text-text-primary p-1 rounded hover:bg-bg-surface-elevated"
                         >
                           <Check className="h-3.5 w-3.5" />
                         </button>
@@ -183,10 +195,10 @@ export const Navbar: React.FC = () => {
           )}
         </div>
 
-        <div className="h-6 w-[1px] bg-slate-800" />
+        <div className="h-6 w-[1px] bg-border-default" />
 
         <div className="flex items-center space-x-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-slate-200 overflow-hidden shrink-0">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border-default bg-bg-surface text-text-primary overflow-hidden shrink-0">
             {avatarUrl ? (
               <img src={avatarUrl} alt="avatar" className="h-full w-full object-cover" />
             ) : (
@@ -194,17 +206,17 @@ export const Navbar: React.FC = () => {
             )}
           </div>
           <div className="hidden text-left sm:block">
-            <p className="text-sm font-semibold leading-none text-white">
+            <p className="text-sm font-semibold leading-none text-text-primary">
               {user?.fullName || 'User'}
             </p>
-            <p className="mt-1 text-xs text-slate-400">{user?.email}</p>
+            <p className="mt-1 text-xs text-text-secondary">{user?.email}</p>
           </div>
         </div>
 
         <button
           onClick={logout}
           title="Sign Out"
-          className="flex items-center space-x-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:border-rose-500/50 hover:bg-rose-500/10 hover:text-rose-400 transition-all"
+          className="flex items-center space-x-1.5 rounded-lg border border-border-default bg-bg-surface px-3 py-1.5 text-xs font-semibold text-text-secondary hover:border-danger/50 hover:bg-danger-soft hover:text-danger transition-all"
         >
           <LogOut className="h-4 w-4" />
           <span className="hidden md:inline">Sign Out</span>

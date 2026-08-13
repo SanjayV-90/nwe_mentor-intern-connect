@@ -1,43 +1,118 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg-page: var(--bg-page);
+  --color-bg-navbar: var(--bg-navbar);
+  --color-bg-sidebar: var(--bg-sidebar);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-surface-elevated: var(--bg-surface-elevated);
+  --color-bg-input: var(--bg-input);
+
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-active: var(--border-active);
+
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+  --color-brand-primary-deep: var(--brand-primary-deep);
+  --color-brand-primary-soft: var(--brand-primary-soft);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+}
+
 :root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 6.5%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 6.5%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 48%;
+  /* LIGHT MODE COLOR TOKENS */
+  --bg-page: #F5FAFA;
+  --bg-navbar: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F4F7F6;
+  --bg-input: #FFFFFF;
+
+  --border-default: #D9E3E0;
+  --border-subtle: #E8EFED;
+  --border-active: #00747F;
+
+  --brand-primary: #04B0BE;
+  --brand-primary-hover: #028A97;
+  --brand-primary-dark: #00747F;
+  --brand-primary-deep: #005B6D;
+  --brand-primary-soft: rgba(4, 176, 190, 0.10);
+
+  --text-primary: #1A1628;
+  --text-secondary: #474554;
+  --text-muted: #73777B;
+  --text-disabled: #A3A1A8;
+
+  /* SHARED SEMANTIC COLORS */
+  --success: #208040;
+  --success-soft: rgba(32, 128, 64, 0.15);
+  --danger: #E63C1C;
+  --danger-dark: #A12A14;
+  --danger-soft: rgba(230, 60, 28, 0.15);
+  --warning: #FFC107;
+  --warning-soft: rgba(255, 193, 7, 0.15);
+
+  /* Required for shadcn */
+  --border: var(--border-default);
+  --background: var(--bg-page);
+  --foreground: var(--text-primary);
   --radius: 0.75rem;
 }
 
+[data-theme="dark"] {
+  /* DARK MODE COLOR TOKENS */
+  --bg-page: #0B0F0E;
+  --bg-navbar: #101513;
+  --bg-sidebar: #0D1210;
+  --bg-surface: #151A18;
+  --bg-surface-elevated: #1A201D;
+  --bg-input: #111714;
+
+  --border-default: #303934;
+  --border-subtle: #242C28;
+  --border-active: #04B0BE;
+
+  --brand-primary: #04B0BE;
+  --brand-primary-hover: #028A97;
+  --brand-primary-dark: #00747F;
+  --brand-primary-deep: #005B6D;
+  --brand-primary-soft: rgba(4, 176, 190, 0.12);
+
+  --text-primary: #F5F7F6;
+  --text-secondary: #B7C0BB;
+  --text-muted: #7F8B85;
+  --text-disabled: #5F6964;
+}
+
 * {
-  border-color: hsl(var(--border));
+  border-color: var(--border-default);
 }
 
 body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
 }
 
 .glass-card {
-  background: rgba(17, 24, 39, 0.7);
+  background: var(--bg-surface-elevated);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-default);
+  opacity: 0.85;
 }
 
 .glass-card-hover {
@@ -45,8 +120,8 @@ body {
 }
 .glass-card-hover:hover {
   transform: translateY(-3px);
-  border-color: rgba(59, 130, 246, 0.35);
-  box-shadow: 0 12px 25px -5px rgba(59, 130, 246, 0.15);
+  border-color: var(--brand-primary);
+  box-shadow: 0 12px 25px -5px var(--brand-primary-soft);
 }
 
 /* Custom scrollbar */
@@ -55,12 +130,12 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--bg-page);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(51, 65, 85, 0.8);
+  background: var(--border-default);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 1);
+  background: var(--text-muted);
 }

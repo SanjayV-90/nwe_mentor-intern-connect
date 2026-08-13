@@ -21,15 +21,15 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
       <div
-        className={`relative w-full ${maxWidth} rounded-2xl border border-slate-700/80 bg-slate-900 shadow-2xl p-6 text-white`}
+        className={`relative w-full ${maxWidth} rounded-2xl border border-border-default bg-bg-surface shadow-2xl p-6 text-text-primary`}
       >
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-          <h3 className="text-lg font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle">
+          <h3 className="text-lg font-bold text-text-primary">
             {title}
           </h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-surface-elevated transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

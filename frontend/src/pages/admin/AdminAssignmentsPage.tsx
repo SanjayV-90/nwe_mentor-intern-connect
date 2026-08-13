@@ -33,11 +33,11 @@ export const AdminAssignmentsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
+      <div className="border-b border-border-default pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
           <Code2 className="h-6 w-6 text-purple-500" /> Problem Solving Submissions
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Review coding solutions submitted by interns across LeetCode, HackerRank, and GeeksForGeeks.
         </p>
       </div>
@@ -45,7 +45,7 @@ export const AdminAssignmentsPage: React.FC = () => {
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400 font-semibold">
+            <thead className="border-b border-border-default bg-bg-navbar/80 text-xs uppercase text-text-muted font-semibold">
               <tr>
                 <th className="px-6 py-4">Intern</th>
                 <th className="px-6 py-4">Problem Title & Link</th>
@@ -56,25 +56,25 @@ export const AdminAssignmentsPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Evidence</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-border-subtle">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">
                     Loading problem submissions...
                   </td>
                 </tr>
               ) : assignments.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">
                     No coding problems submitted yet.
                   </td>
                 </tr>
               ) : (
                 assignments.map((sub: any) => (
-                  <tr key={sub.id} className="hover:bg-slate-900/40 transition-colors">
-                    <td className="px-6 py-4 font-bold text-white">{sub.internName}</td>
+                  <tr key={sub.id} className="hover:bg-bg-surface-elevated transition-colors">
+                    <td className="px-6 py-4 font-bold text-text-primary">{sub.internName}</td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-slate-200">{sub.title}</div>
+                      <div className="font-semibold text-text-primary">{sub.title}</div>
                       <a
                         href={sub.problemUrl}
                         target="_blank"
@@ -86,15 +86,15 @@ export const AdminAssignmentsPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-xs font-bold uppercase text-purple-400">{sub.platform}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{sub.techStack}</div>
+                      <div className="text-xs text-text-muted mt-0.5">{sub.techStack}</div>
                     </td>
                     <td className="px-6 py-4">{getDifficultyBadge(sub.difficulty)}</td>
-                    <td className="px-6 py-4 font-mono text-slate-300">
+                    <td className="px-6 py-4 font-mono text-text-secondary">
                       <div className="flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5 text-slate-500" /> {sub.timeTakenMinutes || 0} mins
+                        <Clock className="h-3.5 w-3.5 text-text-muted" /> {sub.timeTakenMinutes || 0} mins
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-xs text-slate-400 max-w-xs truncate">
+                    <td className="px-6 py-4 text-xs text-text-muted max-w-xs truncate">
                       {sub.notes || '—'}
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -107,7 +107,7 @@ export const AdminAssignmentsPage: React.FC = () => {
                           <ImageIcon className="mr-1.5 h-3.5 w-3.5 text-blue-400" /> Screenshot
                         </Button>
                       ) : (
-                        <span className="text-xs text-slate-600">No screenshot</span>
+                        <span className="text-xs text-text-muted">No screenshot</span>
                       )}
                     </td>
                   </tr>
@@ -129,7 +129,7 @@ export const AdminAssignmentsPage: React.FC = () => {
             <img
               src={selectedScreenshot}
               alt="Problem Solution Evidence"
-              className="mx-auto rounded-xl border border-slate-800 max-h-[70vh] object-contain shadow-2xl"
+              className="mx-auto rounded-xl border border-border-default max-h-[70vh] object-contain shadow-2xl"
             />
           </div>
         )}

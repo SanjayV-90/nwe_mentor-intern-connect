@@ -5,6 +5,7 @@ import com.internportal.backend.domain.entity.RefreshToken;
 import com.internportal.backend.domain.entity.Role;
 import com.internportal.backend.domain.entity.User;
 import com.internportal.backend.domain.enums.AccountStatus;
+import com.internportal.backend.domain.enums.OtpPurpose;
 import com.internportal.backend.domain.enums.RoleType;
 import com.internportal.backend.dto.request.LoginRequest;
 import com.internportal.backend.dto.request.RefreshTokenRequest;
@@ -43,6 +44,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final OtpService otpService;
 
     @Value("${app.jwt.refresh-expiration-ms}")
     private long refreshTokenDurationMs;
@@ -50,6 +52,10 @@ public class AuthService {
     @Transactional
     public AuthResponse registerIntern(RegisterRequest request) {
         String normalizedEmail = request.getEmail().trim().toLowerCase();
+        
+        // Consume OTP verification
+        otpService.consumeVerifiedOtp(normalizedEmail, OtpPurpose.INTERN_REGISTRATION);
+        
         if (userRepository.existsByEmail(normalizedEmail)) {
             throw new CustomException("Email is already registered!", HttpStatus.BAD_REQUEST);
         }
@@ -102,14 +108,14 @@ public class AuthService {
         User user = userRepository.findByEmail(normalizedEmail)
                 .orElseThrow(() -> new CustomException("Invalid email or password", HttpStatus.UNAUTHORIZED));
 
+        if (user.isDeleted() || user.getStatus() == AccountStatus.DISABLED) {
+            throw new CustomException("Your account has been DISABLED or DELETED by batch manager.", HttpStatus.FORBIDDEN);
+        }
         if (user.getStatus() == AccountStatus.PENDING_APPROVAL) {
             throw new CustomException("Your account registration is currently PENDING APPROVAL by batch manager.", HttpStatus.FORBIDDEN);
         }
         if (user.getStatus() == AccountStatus.REJECTED) {
             throw new CustomException("Your account registration request was REJECTED.", HttpStatus.FORBIDDEN);
-        }
-        if (user.getStatus() == AccountStatus.DISABLED) {
-            throw new CustomException("Your account has been DISABLED by batch manager.", HttpStatus.FORBIDDEN);
         }
 
         Authentication authentication = authenticationManager.authenticate(
@@ -127,7 +133,7 @@ public class AuthService {
             fullName = user.getInternProfile().getFullName();
             photoUrl = user.getInternProfile().getProfilePictureUrl();
         } else if (user.getRole().getName() == RoleType.ADMIN) {
-            fullName = "Batch Manager";
+            fullName = user.getFullName() != null ? user.getFullName() : "Batch Manager";
         }
 
         return AuthResponse.builder()
@@ -154,6 +160,14 @@ public class AuthService {
         }
 
         User user = token.getUser();
+        if (user.isDeleted() || user.getStatus() == AccountStatus.DISABLED) {
+            refreshTokenRepository.delete(token);
+            throw new CustomException("Your account has been DISABLED or DELETED by batch manager.", HttpStatus.FORBIDDEN);
+        }
+        if (user.getStatus() == AccountStatus.REJECTED || user.getStatus() == AccountStatus.PENDING_APPROVAL) {
+            refreshTokenRepository.delete(token);
+            throw new CustomException("Your account registration is not active.", HttpStatus.FORBIDDEN);
+        }
         String accessToken = jwtTokenProvider.generateTokenFromUsername(user.getEmail());
 
         return AuthResponse.builder()

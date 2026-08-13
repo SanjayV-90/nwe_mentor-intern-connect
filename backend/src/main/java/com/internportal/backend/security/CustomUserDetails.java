@@ -18,6 +18,7 @@ public class CustomUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final AccountStatus status;
+    private final boolean deleted;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(User user) {
@@ -25,6 +26,7 @@ public class CustomUserDetails implements UserDetails {
         this.email = user.getEmail();
         this.password = user.getPasswordHash();
         this.status = user.getStatus();
+        this.deleted = user.isDeleted();
         this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName().name()));
     }
 
@@ -45,21 +47,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !deleted;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return status != AccountStatus.DISABLED && status != AccountStatus.REJECTED;
+        return !deleted && status != AccountStatus.DISABLED && status != AccountStatus.REJECTED;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return !deleted;
     }
 
     @Override
     public boolean isEnabled() {
-        return !status.equals(AccountStatus.DISABLED);
+        return !deleted && status != AccountStatus.DISABLED && status != AccountStatus.REJECTED;
     }
 }

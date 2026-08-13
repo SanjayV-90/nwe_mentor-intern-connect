@@ -14,4 +14,5 @@ public interface DuolingoRepository extends JpaRepository<DuolingoUpdate, UUID> 
     Optional<DuolingoUpdate> findFirstByInternIdOrderByUpdateDateDesc(UUID internId);
     Optional<DuolingoUpdate> findByInternIdAndUpdateDate(UUID internId, LocalDate updateDate);
     List<DuolingoUpdate> findByInternIdOrderByUpdateDateDesc(UUID internId);
+    Optional<DuolingoUpdate> findByScreenshotUrlContaining(String filename);
 }

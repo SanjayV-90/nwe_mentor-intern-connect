@@ -27,3 +27,6 @@ build/
 uploads/
 backend/uploads/
 data/
+
+# Sensitive files
+backend/env_dump.txt

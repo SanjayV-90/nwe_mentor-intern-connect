@@ -118,17 +118,38 @@ public class AttendanceService {
             startDate = intern.getInternProfile().getJoiningDate();
         } else if (!records.isEmpty()) {
             startDate = records.get(records.size() - 1).getAttendanceDate();
+        } else if (intern.getUpdatedAt() != null) {
+            startDate = intern.getUpdatedAt().toLocalDate();
+        } else if (intern.getCreatedAt() != null) {
+            startDate = intern.getCreatedAt().toLocalDate();
         }
 
-        long totalWorkingDays = businessCalendarService.calculateWorkingDays(startDate, LocalDate.now());
-        if (totalWorkingDays < records.size()) {
-            totalWorkingDays = records.size();
-        }
-        if (totalWorkingDays == 0) {
-            totalWorkingDays = Math.max(1, records.size());
+        LocalDate today = LocalDate.now();
+        long expectedWorkingDays = 0;
+        
+        if (!startDate.isAfter(today.minusDays(1))) {
+            expectedWorkingDays = businessCalendarService.calculateWorkingDays(startDate, today.minusDays(1));
         }
 
-        long approvedLeaveDays = businessCalendarService.calculateApprovedLeaveDays(internId, startDate, LocalDate.now());
+        boolean hasCompletedRecordToday = records.stream()
+                .anyMatch(a -> a.getAttendanceDate().equals(today) && 
+                               (a.getCheckOutTime() != null || a.getLogoutTime() != null));
+                               
+        long approvedLeaveDaysToday = businessCalendarService.calculateApprovedLeaveDays(internId, today, today);
+        boolean hasLeaveToday = approvedLeaveDaysToday > 0;
+
+        if (hasCompletedRecordToday || hasLeaveToday) {
+            expectedWorkingDays += businessCalendarService.calculateWorkingDays(today, today);
+        }
+
+        long totalWorkingDays = expectedWorkingDays;
+        
+        long completedRecords = records.stream().filter(a -> a.getCheckOutTime() != null || a.getLogoutTime() != null).count();
+        if (totalWorkingDays < completedRecords) {
+            totalWorkingDays = completedRecords;
+        }
+
+        long approvedLeaveDays = businessCalendarService.calculateApprovedLeaveDays(internId, startDate, today);
         long absentDays = Math.max(0, totalWorkingDays - presentDays - halfDays - approvedLeaveDays);
 
         long eligibleDays = Math.max(1, totalWorkingDays - approvedLeaveDays);

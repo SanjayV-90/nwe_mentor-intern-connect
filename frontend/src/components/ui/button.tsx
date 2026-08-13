@@ -8,16 +8,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-blue-600 to-indigo-600 text-primary-foreground shadow hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/25",
+          "bg-brand-primary text-bg-page font-bold shadow hover:bg-brand-primary-hover hover:shadow-lg hover:shadow-[#CFFF3D]/10",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "bg-danger text-bg-page font-bold shadow-sm hover:bg-danger/90",
         outline:
-          "border border-border bg-transparent shadow-sm hover:bg-slate-800 hover:text-accent-foreground",
+          "border border-border-default bg-transparent shadow-sm hover:bg-bg-surface-elevated hover:text-text-primary",
         secondary:
-          "bg-slate-800 text-secondary-foreground shadow-sm hover:bg-slate-700",
-        ghost: "hover:bg-slate-800/80 hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        glass: "bg-white/10 backdrop-blur-md border border-white/10 text-white hover:bg-white/20",
+          "bg-bg-surface text-text-primary border border-border-default shadow-sm hover:bg-bg-surface-elevated",
+        ghost: "hover:bg-bg-surface-elevated hover:text-text-primary",
+        link: "text-brand-primary underline-offset-4 hover:underline",
+        glass: "bg-bg-surface/60 backdrop-blur-md border border-border-default text-text-primary hover:bg-bg-surface-elevated",
       },
       size: {
         default: "h-9 px-4 py-2",

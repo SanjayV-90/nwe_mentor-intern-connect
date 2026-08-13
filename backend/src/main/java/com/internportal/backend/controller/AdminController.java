@@ -3,6 +3,7 @@ package com.internportal.backend.controller;
 import com.internportal.backend.domain.enums.AccountStatus;
 import com.internportal.backend.dto.request.*;
 import com.internportal.backend.dto.response.*;
+import com.internportal.backend.security.CustomUserDetails;
 import com.internportal.backend.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -101,6 +102,18 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success("Intern account disabled", adminService.disableIntern(id)));
     }
 
+    @PatchMapping("/interns/{id}/enable")
+    @Operation(summary = "Enable temporarily disabled intern account")
+    public ResponseEntity<ApiResponse<InternProfileResponse>> enableIntern(@PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse.success("Intern account enabled", adminService.enableIntern(id)));
+    }
+
+    @DeleteMapping("/interns/{id}")
+    @Operation(summary = "Safe delete intern account and associated physical files")
+    public ResponseEntity<ApiResponse<InternProfileResponse>> deleteIntern(@PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse.success("Intern account safely deleted and files removed", adminService.deleteIntern(id)));
+    }
+
     @PutMapping("/interns/{id}/work-schedule")
     @Operation(summary = "Update required daily working hours for an intern")
     public ResponseEntity<ApiResponse<InternProfileResponse>> updateWorkSchedule(
@@ -149,5 +162,39 @@ public class AdminController {
     @Operation(summary = "Reject assignment submission")
     public ResponseEntity<ApiResponse<AssignmentResponse>> rejectAssignment(@PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success("Assignment rejected", assignmentService.rejectAssignment(id)));
+    }
+
+    @PostMapping("/accounts")
+    @Operation(summary = "Create a new Admin account")
+    public ResponseEntity<ApiResponse<AdminAccountResponse>> createAdminAccount(@Valid @RequestBody AdminCreationRequest request) {
+        return ResponseEntity.ok(ApiResponse.success("Admin account created successfully", adminService.createAdmin(request)));
+    }
+
+    @GetMapping("/accounts")
+    @Operation(summary = "Get list of all Admin accounts")
+    public ResponseEntity<ApiResponse<List<AdminAccountResponse>>> getAllAdmins() {
+        return ResponseEntity.ok(ApiResponse.success("Admin accounts fetched successfully", adminService.getAllAdmins()));
+    }
+
+    @PutMapping("/accounts/{id}/disable")
+    @Operation(summary = "Disable an Admin account")
+    public ResponseEntity<ApiResponse<AdminAccountResponse>> disableAdminAccount(
+            @PathVariable UUID id,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(ApiResponse.success("Admin account disabled successfully", adminService.disableAdminAccount(id, userDetails.getId())));
+    }
+
+    @PutMapping("/accounts/{id}/enable")
+    @Operation(summary = "Enable a disabled Admin account")
+    public ResponseEntity<ApiResponse<AdminAccountResponse>> enableAdminAccount(@PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse.success("Admin account enabled successfully", adminService.enableAdminAccount(id)));
+    }
+
+    @DeleteMapping("/accounts/{id}")
+    @Operation(summary = "Delete an Admin account")
+    public ResponseEntity<ApiResponse<AdminAccountResponse>> deleteAdminAccount(
+            @PathVariable UUID id,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(ApiResponse.success("Admin account deleted successfully", adminService.deleteAdminAccount(id, userDetails.getId())));
     }
 }

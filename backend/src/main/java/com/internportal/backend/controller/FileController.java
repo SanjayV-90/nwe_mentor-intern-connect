@@ -1,6 +1,8 @@
 package com.internportal.backend.controller;
 
+import com.internportal.backend.domain.entity.DuolingoUpdate;
 import com.internportal.backend.domain.entity.InternProfile;
+import com.internportal.backend.repository.DuolingoRepository;
 import com.internportal.backend.repository.InternProfileRepository;
 import com.internportal.backend.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +33,7 @@ import java.nio.file.Paths;
 public class FileController {
 
     private final InternProfileRepository internProfileRepository;
+    private final DuolingoRepository duolingoRepository;
 
     @Value("${app.storage.upload-dir:./uploads}")
     private String uploadDir;
@@ -58,6 +61,25 @@ public class FileController {
                     }
                     if (!isOwner) {
                         log.warn("Unauthorized resume access attempt by user {} for file {}", userDetails.getUsername(), filename);
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                    }
+                }
+            } else if (category.equalsIgnoreCase("duolingo")) {
+                if (userDetails == null) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+                boolean isAdmin = userDetails.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                if (!isAdmin) {
+                    boolean isOwner = false;
+                    if (userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_INTERN"))) {
+                        DuolingoUpdate update = duolingoRepository.findByScreenshotUrlContaining(filename).orElse(null);
+                        if (update != null && update.getIntern().getId().equals(userDetails.getId())) {
+                            isOwner = true;
+                        }
+                    }
+                    if (!isOwner) {
+                        log.warn("Unauthorized duolingo proof access attempt by user {} for file {}", userDetails.getUsername(), filename);
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
                     }
                 }

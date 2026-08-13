@@ -19,14 +19,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ requiredRole }) => {
 
   if (requiredRole && user.role !== requiredRole) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 p-6 text-center text-white">
-        <h1 className="text-3xl font-extrabold text-rose-500">403 Forbidden</h1>
-        <p className="mt-2 text-slate-400">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-bg-page p-6 text-center text-text-primary">
+        <h1 className="text-3xl font-extrabold text-danger">403 Forbidden</h1>
+        <p className="mt-2 text-text-secondary">
           You do not have permission to access the {requiredRole} portal workspace.
         </p>
         <button
           onClick={() => window.history.back()}
-          className="mt-6 rounded-lg bg-blue-600 px-6 py-2.5 font-semibold text-white shadow-lg hover:bg-blue-500 transition-colors"
+          className="mt-6 rounded-lg bg-brand-primary px-6 py-2.5 font-bold text-bg-page shadow-lg hover:bg-brand-primary-hover transition-colors"
         >
           Go Back
         </button>
@@ -35,7 +35,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ requiredRole }) => {
   }
 
   const content = (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-bg-page text-text-primary flex flex-col">
       <Navbar />
       <div className="flex flex-1">
         <ErrorBoundary fallbackTitle="Sidebar Rendering Error">

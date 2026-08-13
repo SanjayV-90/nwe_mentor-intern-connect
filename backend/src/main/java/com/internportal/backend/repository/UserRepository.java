@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
     List<User> findByStatus(AccountStatus status);
+    long countByRole(com.internportal.backend.domain.entity.Role role);
+    long countByRoleAndStatusAndDeletedFalse(com.internportal.backend.domain.entity.Role role, AccountStatus status);
 }

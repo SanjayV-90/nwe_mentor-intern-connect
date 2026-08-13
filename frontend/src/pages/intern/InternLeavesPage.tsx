@@ -86,11 +86,11 @@ export const InternLeavesPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-          <CalendarDays className="h-6 w-6 text-blue-500" /> Leave & Time Off Applications
+      <div className="border-b border-border-default pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+          <CalendarDays className="h-6 w-6 text-brand-primary" /> Leave & Time Off Applications
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Submit leave requests in advance for Batch Manager review and track approval status.
         </p>
       </div>
@@ -99,14 +99,14 @@ export const InternLeavesPage: React.FC = () => {
         <div
           className={`flex items-center space-x-2 rounded-xl border p-4 text-sm font-medium ${
             msg.type === 'success'
-              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-              : 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+              ? 'border-[#43D39E]/40 bg-success/10 text-success'
+              : 'border-[#FF5C7A]/40 bg-danger/10 text-danger'
           }`}
         >
           {msg.type === 'success' ? (
-            <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
           ) : (
-            <AlertCircle className="h-5 w-5 shrink-0 text-rose-400" />
+            <AlertCircle className="h-5 w-5 shrink-0 text-danger" />
           )}
           <span>{msg.text}</span>
         </div>
@@ -114,22 +114,22 @@ export const InternLeavesPage: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Submit Form Card */}
-        <Card className="glass-card border-blue-500/30 lg:col-span-1 sticky top-6">
-          <CardHeader className="pb-4 border-b border-slate-800">
-            <CardTitle className="text-base font-bold text-white flex items-center gap-2">
-              <Send className="h-4 w-4 text-blue-400" /> Submit New Request
+        <Card className="glass-card border-brand-primary/30 lg:col-span-1 sticky top-6">
+          <CardHeader className="pb-4 border-b border-border-default">
+            <CardTitle className="text-base font-bold text-text-primary flex items-center gap-2">
+              <Send className="h-4 w-4 text-brand-primary" /> Submit New Request
             </CardTitle>
-            <CardDescription className="text-xs text-slate-400">
+            <CardDescription className="text-xs text-text-muted">
               Approved leaves are excluded from absent days calculations.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4 space-y-4">
             <div>
-              <label className="text-xs font-semibold text-slate-300 block mb-1.5">Leave Type</label>
+              <label className="text-xs font-semibold text-text-secondary block mb-1.5">Leave Type</label>
               <select
                 value={leaveType}
                 onChange={(e) => setLeaveType(e.target.value)}
-                className="w-full h-10 rounded-lg border border-slate-700 bg-slate-900 px-3 text-xs text-white focus:border-blue-500"
+                className="w-full h-10 rounded-lg border border-border-default bg-bg-surface px-3 text-xs text-text-primary focus:border-brand-primary"
               >
                 <option value="SICK">Sick Leave</option>
                 <option value="CASUAL">Casual Leave</option>
@@ -141,40 +141,40 @@ export const InternLeavesPage: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold text-slate-300 block mb-1.5">Start Date</label>
+                <label className="text-xs font-semibold text-text-secondary block mb-1.5">Start Date</label>
                 <Input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-slate-900 border-slate-700 text-xs text-white"
+                  className="bg-bg-surface border-border-default text-xs text-text-primary"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-300 block mb-1.5">End Date</label>
+                <label className="text-xs font-semibold text-text-secondary block mb-1.5">End Date</label>
                 <Input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-slate-900 border-slate-700 text-xs text-white"
+                  className="bg-bg-surface border-border-default text-xs text-text-primary"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-300 block mb-1.5">Reason for Leave</label>
+              <label className="text-xs font-semibold text-text-secondary block mb-1.5">Reason for Leave</label>
               <textarea
                 rows={3}
                 placeholder="Provide details about your leave application..."
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 p-3 text-xs text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-border-default bg-bg-surface p-3 text-xs text-text-primary placeholder:text-text-muted focus:border-brand-primary focus:outline-none"
               />
             </div>
 
             <Button
               onClick={() => submitMutation.mutate()}
               disabled={submitMutation.isPending}
-              className="w-full bg-blue-600 hover:bg-blue-500 font-bold h-10 text-white shadow-lg shadow-blue-600/20"
+              className="w-full bg-brand-primary hover:bg-brand-primary/80 font-bold h-10 text-bg-page shadow-lg shadow-[#CFFF3D]/20"
             >
               <Send className="mr-2 h-4 w-4" />
               {submitMutation.isPending ? 'Submitting...' : 'Submit Application'}
@@ -184,14 +184,14 @@ export const InternLeavesPage: React.FC = () => {
 
         {/* History Table Card */}
         <Card className="glass-card overflow-hidden lg:col-span-2">
-          <CardHeader className="pb-4 border-b border-slate-800">
-            <CardTitle className="text-base font-bold text-white flex items-center gap-2">
-              <Clock className="h-4 w-4 text-emerald-400" /> My Leave Application History
+          <CardHeader className="pb-4 border-b border-border-default">
+            <CardTitle className="text-base font-bold text-text-primary flex items-center gap-2">
+              <Clock className="h-4 w-4 text-success" /> My Leave Application History
             </CardTitle>
           </CardHeader>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400 font-semibold">
+              <thead className="border-b border-border-default bg-bg-surface/80 text-xs uppercase text-text-muted font-semibold">
                 <tr>
                   <th className="px-5 py-3.5">Dates</th>
                   <th className="px-5 py-3.5">Type & Days</th>
@@ -201,41 +201,41 @@ export const InternLeavesPage: React.FC = () => {
                   <th className="px-5 py-3.5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-[#303630]/60">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={6} className="px-5 py-8 text-center text-slate-400 text-xs">
+                    <td colSpan={6} className="px-5 py-8 text-center text-text-muted text-xs">
                       Loading applications...
                     </td>
                   </tr>
                 ) : leaves.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-5 py-12 text-center text-slate-500 text-xs italic">
+                    <td colSpan={6} className="px-5 py-12 text-center text-text-muted text-xs italic">
                       No leave applications submitted yet.
                     </td>
                   </tr>
                 ) : (
                   leaves.map((l: any) => (
-                    <tr key={l.id} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="px-5 py-3.5 font-mono text-xs text-white">
+                    <tr key={l.id} className="hover:bg-bg-surface/40 transition-colors">
+                      <td className="px-5 py-3.5 font-mono text-xs text-text-primary">
                         <div className="font-bold">{l.startDate}</div>
-                        {l.startDate !== l.endDate && <div className="text-slate-400">to {l.endDate}</div>}
+                        {l.startDate !== l.endDate && <div className="text-text-muted">to {l.endDate}</div>}
                       </td>
                       <td className="px-5 py-3.5">
-                        <span className="font-bold text-xs text-blue-400 block">{l.leaveType}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="font-bold text-xs text-brand-primary block">{l.leaveType}</span>
+                        <span className="text-[10px] text-text-muted font-mono">
                           {l.workingLeaveDays} {l.workingLeaveDays === 1 ? 'day' : 'days'}
                         </span>
                       </td>
-                      <td className="px-5 py-3.5 text-xs text-slate-300 max-w-xs truncate" title={l.reason}>
+                      <td className="px-5 py-3.5 text-xs text-text-secondary max-w-xs truncate" title={l.reason}>
                         {l.reason}
                       </td>
                       <td className="px-5 py-3.5">{getStatusBadge(l.status)}</td>
-                      <td className="px-5 py-3.5 text-xs text-slate-400 max-w-xs truncate" title={l.adminComments || 'None'}>
+                      <td className="px-5 py-3.5 text-xs text-text-muted max-w-xs truncate" title={l.adminComments || 'None'}>
                         {l.adminComments ? (
-                          <span className="text-slate-200 italic">"{l.adminComments}"</span>
+                          <span className="text-text-primary italic">"{l.adminComments}"</span>
                         ) : (
-                          <span className="text-slate-500">—</span>
+                          <span className="text-text-muted">—</span>
                         )}
                       </td>
                       <td className="px-5 py-3.5 text-right">
@@ -243,7 +243,7 @@ export const InternLeavesPage: React.FC = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 h-8 px-2.5 text-xs"
+                            className="text-danger hover:text-danger/80 hover:bg-danger/10 h-8 px-2.5 text-xs"
                             onClick={() => cancelMutation.mutate(l.id)}
                             disabled={cancelMutation.isPending}
                           >

@@ -20,11 +20,11 @@ export const AdminDuolingoPage: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
+      <div className="border-b border-border-default pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2.5">
           <Flame className="h-6 w-6 text-amber-500" /> Duolingo Streaks Leaderboard
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-text-muted mt-1">
           Review language learning consistency, daily goal completion, and screenshot verifications.
         </p>
       </div>
@@ -32,7 +32,7 @@ export const AdminDuolingoPage: React.FC = () => {
       <Card className="glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-800 bg-slate-900/80 text-xs uppercase text-slate-400 font-semibold">
+            <thead className="border-b border-border-default bg-bg-navbar/80 text-xs uppercase text-text-muted font-semibold">
               <tr>
                 <th className="px-6 py-4">Intern</th>
                 <th className="px-6 py-4">Language</th>
@@ -43,23 +43,23 @@ export const AdminDuolingoPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Proof</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-border-subtle">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">
                     Loading streak logs...
                   </td>
                 </tr>
               ) : duolingoList.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-text-muted">
                     No Duolingo streak logs recorded yet.
                   </td>
                 </tr>
               ) : (
                 duolingoList.map((d: any) => (
-                  <tr key={d.id} className="hover:bg-slate-900/40 transition-colors">
-                    <td className="px-6 py-4 font-bold text-white">{d.internName}</td>
+                  <tr key={d.id} className="hover:bg-bg-surface-elevated transition-colors">
+                    <td className="px-6 py-4 font-bold text-text-primary">{d.internName}</td>
                     <td className="px-6 py-4">
                       <span className="inline-block rounded-md bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 text-xs font-semibold text-amber-300">
                         {d.language}
@@ -71,7 +71,7 @@ export const AdminDuolingoPage: React.FC = () => {
                         {d.currentStreak} Days
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-slate-300">{d.xp || 0} XP</td>
+                    <td className="px-6 py-4 font-mono text-text-secondary">{d.xp || 0} XP</td>
                     <td className="px-6 py-4">
                       {d.dailyGoalCompleted ? (
                         <Badge variant="success">Completed</Badge>
@@ -79,7 +79,7 @@ export const AdminDuolingoPage: React.FC = () => {
                         <Badge variant="warning">Incomplete</Badge>
                       )}
                     </td>
-                    <td className="px-6 py-4 font-mono text-slate-400 text-xs">{d.updateDate}</td>
+                    <td className="px-6 py-4 font-mono text-text-muted text-xs">{d.updateDate}</td>
                     <td className="px-6 py-4 text-right">
                       {d.screenshotUrl ? (
                         <Button
@@ -90,7 +90,7 @@ export const AdminDuolingoPage: React.FC = () => {
                           <ImageIcon className="mr-1.5 h-3.5 w-3.5 text-amber-400" /> View Screenshot
                         </Button>
                       ) : (
-                        <span className="text-xs text-slate-600">No screenshot</span>
+                        <span className="text-xs text-text-muted">No screenshot</span>
                       )}
                     </td>
                   </tr>
@@ -112,7 +112,7 @@ export const AdminDuolingoPage: React.FC = () => {
             <img
               src={selectedScreenshot}
               alt="Duolingo Streak Evidence"
-              className="mx-auto rounded-xl border border-slate-800 max-h-[70vh] object-contain shadow-2xl"
+              className="mx-auto rounded-xl border border-border-default max-h-[70vh] object-contain shadow-2xl"
             />
           </div>
         )}
