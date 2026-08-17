@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getSessionToken, setSessionToken, getRefreshToken } from '@/context/AuthContext';
 
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -48,7 +48,7 @@ api.interceptors.response.use(
         if (!refreshToken) {
           throw new Error('No refresh token available');
         }
-        const res = await axios.post('/api/v1/auth/refresh-token', { refreshToken });
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL || '/api/v1'}/auth/refresh-token`, { refreshToken });
         if (res.data?.data?.accessToken) {
           // Update only this tab's sessionStorage — other tabs are unaffected.
           setSessionToken(res.data.data.accessToken);
